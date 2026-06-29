@@ -1,0 +1,24 @@
+{
+  "name": "obsidian-notion-outline",
+  "version": "0.1.0",
+  "description": "Notion-style right-edge outline for Obsidian",
+  "main": "main.js",
+  "scripts": {
+    "dev": "node esbuild.config.mjs",
+    "build": "tsc --noEmit --skipLibCheck && node esbuild.config.mjs production",
+    "test": "vitest run"
+  },
+  "keywords": ["obsidian", "plugin", "outline"],
+  "author": "Mario Miletta",
+  "license": "MIT",
+  "devDependencies": {
+    "@codemirror/state": "^6.0.0",
+    "@codemirror/view": "^6.0.0",
+    "@types/node": "^22.0.0",
+    "builtin-modules": "^4.0.0",
+    "esbuild": "^0.25.0",
+    "obsidian": "latest",
+    "typescript": "^5.8.0",
+    "vitest": "^2.0.0"
+  }
+}
