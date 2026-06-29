@@ -50,17 +50,40 @@ function editingTops(view: MarkdownView, headings: Heading[]): number[] {
   });
 }
 
+/**
+ * Obsidian's reading view virtualizes: not every heading is in the DOM. Align
+ * the rendered <h*> elements (DOM order) to the metadata headings (doc order)
+ * with a two-pointer match on (level, text). Returns, per metadata heading, the
+ * matched element or null. Robust whether or not virtualization is active.
+ */
+function alignReadingEls(
+  headings: Heading[],
+  els: HTMLElement[],
+): (HTMLElement | null)[] {
+  const result: (HTMLElement | null)[] = new Array(headings.length).fill(null);
+  let ei = 0;
+  for (let hi = 0; hi < headings.length && ei < els.length; hi++) {
+    const el = els[ei];
+    const elLevel = Number(el.tagName.charAt(1)); // "H2" -> 2
+    const elText = (el.textContent ?? "").trim();
+    if (elLevel === headings[hi].level && elText === headings[hi].text.trim()) {
+      result[hi] = el;
+      ei++;
+    }
+  }
+  return result;
+}
+
 function readingTops(view: MarkdownView, headings: Heading[]): number[] {
   const scroller = getScroller(view);
   if (!scroller) return headings.map(() => 0);
   const els = Array.from(
-    scroller.querySelectorAll<HTMLElement>(
-      "h1, h2, h3, h4, h5, h6, .HyperMD-header",
-    ),
+    scroller.querySelectorAll<HTMLElement>("h1, h2, h3, h4, h5, h6"),
   );
+  const aligned = alignReadingEls(headings, els);
   let last = 0;
   return headings.map((_, i) => {
-    const el = els[i];
+    const el = aligned[i];
     if (el) last = el.offsetTop;
     return last;
   });
@@ -75,11 +98,9 @@ export function scrollToHeading(
   const h = headings[index];
   if (!h) return;
   if (isReadingMode(view)) {
-    const scroller = getScroller(view);
-    const els = scroller?.querySelectorAll<HTMLElement>(
-      "h1, h2, h3, h4, h5, h6, .HyperMD-header",
-    );
-    els?.[index]?.scrollIntoView({ behavior: "smooth", block: "start" });
+    // Robust against preview virtualization: scroll by document line, not by a
+    // rendered element that may not exist in the DOM.
+    view.currentMode.applyScroll(h.line);
     return;
   }
   const cm = getEditorView(view);

@@ -27,6 +27,9 @@ export default class NotionOutlinePlugin extends Plugin {
     this.registerEvent(
       this.app.metadataCache.on("changed", (file) => this.onMetaChanged(file)),
     );
+    this.registerEvent(
+      this.app.workspace.on("resize", () => this.remeasureActive()),
+    );
 
     this.app.workspace.onLayoutReady(() => this.syncControllers());
   }
@@ -68,12 +71,13 @@ export default class NotionOutlinePlugin extends Plugin {
     if (view) this.refreshView(view);
   }
 
+  private remeasureActive(): void {
+    for (const ctrl of this.controllers.values()) ctrl.remeasure();
+  }
+
   private onMetaChanged(file: TFile): void {
-    for (const [view, ctrl] of this.controllers) {
-      if (view.file?.path === file.path) {
-        const headings = normalizeHeadings(this.app.metadataCache.getFileCache(file));
-        ctrl.setHeadings(headings, this.settings.minHeadings, this.isVisible(view));
-      }
+    for (const [view] of this.controllers) {
+      if (view.file?.path === file.path) this.debouncedRefresh(view);
     }
   }
 
