@@ -24,16 +24,16 @@ At rest it shows a vertical strip of thin ticks — one per heading — that exp
 ## Installation (manual / dev)
 
 1. Clone this repository.
-2. Run `npm install`.
+2. Run `pnpm install`.
 3. Create a `.obsidian-plugin-dir` file in the repo root containing the absolute path to your plugin directory, e.g. `<vault>/.obsidian/plugins/notion-outline`.
-4. Run `npm run dev` for a watching build, or `npm run build` for a one-off production build.
+4. Run `pnpm dev` for a watching build, or `pnpm build` for a one-off production build.
 5. In Obsidian, open **Settings → Community plugins**, then enable **Notion Outline**.
 
 ## Development
 
-- `npm run dev` — esbuild watch build (rebuilds on change).
-- `npm run build` — `tsc` typecheck (`--noEmit`) followed by a production esbuild bundle.
-- `npm test` — vitest unit tests for the pure heading/tracking logic.
+- `pnpm dev` — esbuild watch build (rebuilds on change).
+- `pnpm build` — `tsc` typecheck (`--noEmit`) followed by a production esbuild bundle.
+- `pnpm test` — vitest unit tests for the pure heading/tracking logic.
 
 ### Architecture
 

@@ -1,11 +1,13 @@
 {
   "name": "obsidian-notion-outline",
   "version": "0.1.0",
+  "packageManager": "pnpm@10.17.1",
   "description": "Notion-style right-edge outline for Obsidian",
   "main": "main.js",
   "scripts": {
     "dev": "node esbuild.config.mjs",
-    "build": "tsc --noEmit --skipLibCheck && node esbuild.config.mjs production",
+    "build": "pnpm typecheck && node esbuild.config.mjs production",
+    "typecheck": "tsc --noEmit --skipLibCheck",
     "test": "vitest run"
   },
   "keywords": ["obsidian", "plugin", "outline"],
