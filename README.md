@@ -45,6 +45,10 @@ At rest it shows a vertical strip of thin ticks — one per heading — that exp
 
 Desktop-only. Requires Obsidian `1.4.0` or later.
 
+## Mobile
+
+**Unsupported** — `isDesktopOnly: true` in `manifest.json`.
+
 ## License
 
 MIT — see [LICENSE](LICENSE).
