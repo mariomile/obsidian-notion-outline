@@ -6,6 +6,11 @@ At rest it shows a vertical strip of thin ticks — one per heading — that exp
 
 Part of the marioverse Obsidian plugin suite.
 
+<p align="center">
+  <img src="docs/tick-strip.png" width="900" alt="Notion Outline — the resting tick strip" />
+</p>
+<p align="center"><em>The resting tick strip on the right edge, one tick per heading.</em></p>
+
 ## Features
 
 - **Resting tick strip** — a vertical strip of thin horizontal ticks pinned to the right edge, one per heading. Tick length and opacity scale with heading level (h1 longest/brightest, deeper levels shorter/dimmer).
