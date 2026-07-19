@@ -4,6 +4,8 @@ A Notion-style outline indicator docked to the right edge of the Obsidian markdo
 
 At rest it shows a vertical strip of thin ticks — one per heading — that expands on hover into a floating panel of heading titles, with the active heading tracked live as you scroll.
 
+Part of the marioverse Obsidian plugin suite.
+
 ## Features
 
 - **Resting tick strip** — a vertical strip of thin horizontal ticks pinned to the right edge, one per heading. Tick length and opacity scale with heading level (h1 longest/brightest, deeper levels shorter/dimmer).
