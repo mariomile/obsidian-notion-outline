@@ -58,7 +58,7 @@ Desktop-only. Requires Obsidian `1.4.0` or later.
 
 ## Try it
 
-See it running in the [Obsidianverse sample vault](https://github.com/mariomile/obsidianverse-sample-vault) — a small, fictional vault with the whole plugin suite pre-configured.
+See it running in the [Obsidianverse sample vault](https://github.com/mariomile/obsidianverse-sample-vault), a small, fictional vault with the whole plugin suite pre-configured.
 
 ## License
 
