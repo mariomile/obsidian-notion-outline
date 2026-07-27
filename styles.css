@@ -16,26 +16,54 @@
 
 /* Resting tick strip */
 .notion-outline__strip {
+  appearance: none;
   display: flex;
   flex-direction: column;
   gap: 6px;
   align-items: flex-end;
   padding: 8px 10px;
+  min-width: 44px;
+  min-height: 44px;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  box-shadow: none;
   pointer-events: auto;
-}
-
-.notion-outline__tick {
-  height: 2px;
-  border-radius: 2px;
-  background-color: var(--text-muted);
-  transition: width 0.12s ease, background-color 0.12s ease, opacity 0.12s ease;
   cursor: pointer;
 }
 
-.notion-outline__tick.is-active {
+.notion-outline__tick {
+  display: flex;
+  width: 24px;
+  height: 2px;
+  justify-content: flex-end;
+}
+
+.notion-outline__tick::before {
+  width: var(--notion-outline-tick-width, 12px);
+  height: 2px;
+  border-radius: 2px;
+  background-color: var(--text-muted);
+  content: "";
+  opacity: var(--notion-outline-tick-opacity, 0.7);
+  transform: scaleX(1);
+  transform-origin: right center;
+  transition:
+    background-color 0.12s ease,
+    opacity 0.12s ease,
+    transform 0.12s ease;
+}
+
+.notion-outline__tick.is-active::before {
   background-color: var(--interactive-accent);
   opacity: 1 !important;
-  width: 20px !important;
+  transform: scaleX(1.25);
+}
+
+.notion-outline__strip:focus-visible,
+.notion-outline__row:focus-visible {
+  outline: 2px solid var(--interactive-accent);
+  outline-offset: 2px;
 }
 
 /* Hover panel */
@@ -59,8 +87,9 @@
   transition: opacity 0.12s ease, transform 0.12s ease, visibility 0.12s;
 }
 
-.notion-outline.is-expanded .notion-outline__strip {
+.notion-outline.is-expanded .notion-outline__strip:not(:focus-visible) {
   opacity: 0;
+  pointer-events: none;
 }
 
 .notion-outline.is-expanded .notion-outline__panel {
@@ -71,22 +100,39 @@
 }
 
 .notion-outline__row {
+  appearance: none;
+  display: block;
+  width: 100%;
+  min-height: 28px;
+  border: 0;
   font-size: var(--font-ui-small);
   line-height: 1.4;
   color: var(--text-muted);
   padding: 3px 6px;
   border-radius: 4px;
+  background: transparent;
+  text-align: left;
   cursor: pointer;
   white-space: normal;
   overflow-wrap: anywhere;
+  box-shadow: none;
 }
 
-.notion-outline__row:hover {
-  background-color: var(--background-modifier-hover);
-  color: var(--text-normal);
+@media (hover: hover) {
+  .notion-outline__row:hover {
+    background-color: var(--background-modifier-hover);
+    color: var(--text-normal);
+  }
 }
 
 .notion-outline__row.is-active {
   color: var(--interactive-accent);
   font-weight: var(--font-semibold, 600);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .notion-outline__tick::before,
+  .notion-outline__panel {
+    transition: none;
+  }
 }
