@@ -23,6 +23,15 @@ describe("outline accessibility contract", () => {
     expect(styles).not.toMatch(/transition\s*:[^;]*\bwidth\b/);
   });
 
+  it("isolates native button layout from host theme button styles", () => {
+    expect(styles).toContain(
+      ".notion-outline > button.notion-outline__strip {",
+    );
+    expect(styles).toContain(
+      ".notion-outline__panel > button.notion-outline__row {",
+    );
+  });
+
   it("respects reduced motion", () => {
     expect(styles).toContain("@media (prefers-reduced-motion: reduce)");
   });
