@@ -18,6 +18,7 @@ export class OutlineController {
   private rafId: number | null = null;
   private collapseTimer: number | null = null;
   private scroller: HTMLElement | null = null;
+  private readonly supportsHover = window.matchMedia("(hover: hover)").matches;
 
   private onScroll = () => this.scheduleUpdate();
 
@@ -39,8 +40,17 @@ export class OutlineController {
       attr: { role: "navigation", "aria-label": "Headings" },
     });
 
-    this.root.addEventListener("mouseenter", this.expand);
-    this.root.addEventListener("mouseleave", this.collapse);
+    // Touch has no real hover, but Chromium/WebKit still synthesize a
+    // mouseenter+mouseleave pair right after a tap — with no pointer left
+    // resting on the strip, `collapse` finds nothing hovered/focused and
+    // closes the panel ~COLLAPSE_DELAY after it opened, unusable on touch
+    // (matches the `@media (hover: hover)` guard already on the row hover
+    // style below; the JS twin of that rule was missing). Devices with a
+    // real pointer keep the hover-driven expand/collapse as before.
+    if (this.supportsHover) {
+      this.root.addEventListener("mouseenter", this.expand);
+      this.root.addEventListener("mouseleave", this.collapse);
+    }
     this.root.addEventListener("focusin", this.expand);
     this.root.addEventListener("focusout", this.onFocusOut);
     this.root.addEventListener("keydown", this.onKeyDown);
@@ -207,8 +217,10 @@ export class OutlineController {
 
   destroy(): void {
     this.detachScroll();
-    this.root.removeEventListener("mouseenter", this.expand);
-    this.root.removeEventListener("mouseleave", this.collapse);
+    if (this.supportsHover) {
+      this.root.removeEventListener("mouseenter", this.expand);
+      this.root.removeEventListener("mouseleave", this.collapse);
+    }
     this.root.removeEventListener("focusin", this.expand);
     this.root.removeEventListener("focusout", this.onFocusOut);
     this.root.removeEventListener("keydown", this.onKeyDown);
