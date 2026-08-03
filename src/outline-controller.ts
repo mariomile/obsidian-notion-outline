@@ -45,6 +45,9 @@ export class OutlineController {
     this.root.addEventListener("focusout", this.onFocusOut);
     this.root.addEventListener("keydown", this.onKeyDown);
     this.strip.addEventListener("click", this.onStripClick);
+    // Touch has no mouseleave, so an expanded panel would stay open forever and
+    // cover the text. A pointer press outside is the touch counterpart of Escape.
+    document.addEventListener("pointerdown", this.onOutsidePointer, true);
   }
 
   /** Rebuild ticks/panel from `headings`; hide if below threshold. */
@@ -187,6 +190,13 @@ export class OutlineController {
     if (!(next instanceof Node) || !this.root.contains(next)) this.collapse();
   };
 
+  private onOutsidePointer = (event: PointerEvent): void => {
+    if (!this.root.hasClass("is-expanded")) return;
+    const target = event.target;
+    if (target instanceof Node && this.root.contains(target)) return;
+    this.collapseImmediately();
+  };
+
   private onKeyDown = (event: KeyboardEvent): void => {
     if (event.key !== "Escape" || !this.root.hasClass("is-expanded")) return;
     event.preventDefault();
@@ -203,6 +213,7 @@ export class OutlineController {
     this.root.removeEventListener("focusout", this.onFocusOut);
     this.root.removeEventListener("keydown", this.onKeyDown);
     this.strip.removeEventListener("click", this.onStripClick);
+    document.removeEventListener("pointerdown", this.onOutsidePointer, true);
     if (this.collapseTimer) window.clearTimeout(this.collapseTimer);
     if (this.rafId !== null) cancelAnimationFrame(this.rafId);
     this.root.remove();

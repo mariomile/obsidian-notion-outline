@@ -5,5 +5,5 @@
   "minAppVersion": "1.4.0",
   "description": "A Notion-style outline indicator docked to the right edge of the editor — resting ticks that expand on hover into a titled panel with live active-heading tracking.",
   "author": "Mario Miletta",
-  "isDesktopOnly": true
+  "isDesktopOnly": false
 }
