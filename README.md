@@ -1,5 +1,11 @@
 # Notion Outline
 
+> [!WARNING]
+> **Deprecated: merged into [Composer](https://github.com/mariomile/obsidian-composer).**
+> The outline now ships inside Composer 0.3.0 and later, with the same look and behaviour, mobile support included.
+> Install Composer, then disable Notion Outline: on first load Composer imports your Notion Outline settings.
+> This repository is archived and receives no further updates.
+
 A Notion-style outline indicator docked to the right edge of the Obsidian markdown view.
 
 At rest it shows a vertical strip of thin ticks — one per heading — that expands on hover into a floating panel of heading titles, with the active heading tracked live as you scroll.
